@@ -99,7 +99,7 @@ public class JavacBenchApp {
         Collection<SourceFile> sourceFiles = sources;
 
         try (FileManager fileManager = new FileManager(compiler.getStandardFileManager(ds, null, null))) {
-            JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, null, null, sourceFiles);
+            JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, List.of("--release", "21"), null, sourceFiles);
             if (task.call()) {
                 return fileManager.getCompiledClasses();
             } else {
@@ -196,8 +196,15 @@ public class JavacBenchApp {
 
     @SuppressWarnings("unchecked")
     static void validate(byte[] sanityClassFile) throws Throwable {
+        /*
         MethodHandles.Lookup lookup = MethodHandles.lookup();
         Class<?> cls = lookup.defineClass(sanityClassFile);
+        */
+        Class<?> cls = new ClassLoader() {
+            public Class findClass(String name) {
+                return defineClass(name, sanityClassFile, 0, sanityClassFile.length);
+            }
+        }.findClass("Sanity");
         Callable<String> obj = (Callable<String>)cls.getDeclaredConstructor().newInstance();
         String s = obj.call();
         if (!s.equals("this is a test")) {

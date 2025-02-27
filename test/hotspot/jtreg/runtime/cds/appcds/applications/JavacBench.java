@@ -70,7 +70,8 @@ public class JavacBench {
                                              "JavacBenchApp",
                                              "JavacBenchApp$ClassFile",
                                              "JavacBenchApp$FileManager",
-                                             "JavacBenchApp$SourceFile");
+                                             "JavacBenchApp$SourceFile",
+                                             "JavacBenchApp$1");
         JavacBenchTester tester = new JavacBenchTester();
         tester.run(args);
     }
