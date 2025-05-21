@@ -128,7 +128,7 @@ ${PC_JAVA_SOURCES}:
 
 # Need to touch ${PC_APP_JAR} as mvn wants to set it the release date of 3.2.0-SNAPSHOT
 ${PC_APP_JAR}: ${PC_JAVA_SOURCES}
-	cd ${PC_REPO}; JAVA_HOME=${BLDJDK_HOME} mvn -Dmaven.test.skip=true package
+	cd ${PC_REPO}; JAVA_HOME=${BLDJDK_HOME} mvn -Dmaven.test.skip=true -Pnative clean package
 	if test -f ${PC_APP_JAR}; then \
 	    touch ${PC_APP_JAR}; \
 	fi
